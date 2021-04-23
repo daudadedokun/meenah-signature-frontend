@@ -15,6 +15,8 @@ export class ProductFormComponent implements OnInit{
   products$:any
   product:any = {}
   productId:any
+  invalidForm:any = false
+  selectedFile:any
 
   constructor(
     private catService:CategoryService,
@@ -28,25 +30,52 @@ export class ProductFormComponent implements OnInit{
     this.getProduct();
   }
 
+  onFileSelected(evt:any){
+    this.selectedFile  = evt.target.files[0]
+    console.log(this.selectedFile);
+    
+  }
+
+  onFileUpload(productdId:any){
+    const formData =  new FormData()
+    formData.append('file', this.selectedFile)
+    this.prodService.uploadImage(productdId,formData).subscribe((res)=>{
+      console.log(res);
+      
+    },(err:HttpErrorResponse)=>{
+      console.log(err);
+      
+    })
+  }
+
+  downloadProductImage(){
+    console.log(this.productId);
+    
+    this.prodService.downloadImage(this.productId).subscribe((res)=>{
+      console.log(res);
+      
+    },(err:HttpErrorResponse)=>{
+      console.log(err);
+      
+    })
+  }
+
 
   save(product:any){
-    console.log(product);
-    console.log(product.category);
     
-    
- 
     if(this.productId){
-      this.prodService.update(product).subscribe((res)=>{
-        console.log(res);
+      this.prodService.update(product,product.category).subscribe((res)=>{
+        // console.log(res);
+        
+        this.onFileUpload(product.id);
         this.router.navigate(['/admin/products'])
       },(err)=>{
-        console.log(err);
-        
+        this.invalidForm = true;
       })
     }
        
       else {
-        this.prodService.create(product)
+        this.prodService.create(product,product.category)
   
       .subscribe((res:any)=>{
       this.router.navigate(['/admin/products'])
@@ -54,7 +83,7 @@ export class ProductFormComponent implements OnInit{
         this.products$ = res
         
     },(err:HttpErrorResponse)=>{
-      console.log(err);
+      this.invalidForm = true;
       
     })
     }
@@ -64,12 +93,12 @@ export class ProductFormComponent implements OnInit{
   getProduct(){
     let id = this.route.snapshot.paramMap.get('id');
     this.productId = id;
+
     if(id){
       this.prodService.getProduct(parseInt(id)).pipe(take(1)).subscribe((res:any)=>{
       this.product = res;
     },(err:HttpErrorResponse)=>{
-      console.log(err);
-      
+      this.invalidForm = true;
     })
     }
   }
@@ -77,15 +106,13 @@ export class ProductFormComponent implements OnInit{
   deleteProduct(){
     if(!confirm('Are you sure you want to delete this product?'))
     return;
-    console.log(this.productId);
     
     this.prodService.delete(this.productId).subscribe((res)=>{
-      console.log(res);
       
       this.router.navigate(['/admin/products'])
 
     },(err:HttpErrorResponse)=>{
-      console.log(err);
+      this.invalidForm = true;
       
     });
   }

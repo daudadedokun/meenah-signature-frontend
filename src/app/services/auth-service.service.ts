@@ -25,8 +25,8 @@ export class AuthServiceService {
     }).pipe(map((data:any)=>{
       
       let token = data.headers.get('authorization');
-      const formattedToken = token.replace('Bearer ','')
       if(token){
+        const formattedToken = token.replace('Bearer ','')
         localStorage.setItem("token",formattedToken)
         return true
       }
@@ -58,4 +58,5 @@ export class AuthServiceService {
      
     return this.http.post<User>(this.apiEndpoint+"api/register",user);
   }
+
 }

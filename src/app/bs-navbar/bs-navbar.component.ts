@@ -7,6 +7,7 @@ import { AuthServiceService } from '../services/auth-service.service';
   styleUrls: ['./bs-navbar.component.css']
 })
 export class BsNavbarComponent implements OnInit {
+  isMenuCollapsed = true;
 
   constructor(public authService:AuthServiceService) { }
 

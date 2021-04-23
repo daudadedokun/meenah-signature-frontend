@@ -1,5 +1,8 @@
 <div class="row">
   <div class="col-md-6">
+    <div *ngIf="invalidForm" class="alert alert-danger">
+        Oops!! Something went wrong. Check if all required fields are entered.
+    </div>
     <form #f="ngForm" (ngSubmit)="save(f.value)">
       <input #id="ngModel" [(ngModel)]="product.id" name="id" type="hidden" class="form-control" id="id">
       <div class="form-group mb-3">
@@ -11,13 +14,13 @@
         </div>
       </div>
     
-      <div class="form-group">
+      <div *ngIf="product.id" class="form-group">
         <label for="imageLink" class="form-label">Image URL</label>
-        <input #imageLink="ngModel" [(ngModel)]="product.imageLink" name="imageLink" type="text" class="form-control" id="imageLink"
+        <input (change)="onFileSelected($event)" name="imageLink" type="file" class="form-control" id="imageLink"
           aria-describedby="imageLinkHelp" required>
-        <div class="alert alert-danger" *ngIf="imageLink.touched && imageLink.invalid">
+        <!-- <div class="alert alert-danger" *ngIf="imageLink.touched && imageLink.invalid">
           Image Link is required
-        </div>
+        </div> -->
       </div>
       <div class="form-group">
         <label for="price" class="form-label">Price</label>
@@ -34,7 +37,7 @@
       </div>
       <div class="form-group">
         <label for="category" class="form-label">Category</label>
-        <select  [(ngModel)]="product.category" ngModel name="category" id="category" class="form-control form-select">
+        <select #category="ngModel" [(ngModel)]="product.category" ngModel name="category" id="category" class="form-control form-select">
           <option selected>Choose...</option>
           <option *ngFor="let c of categories$ | async" [value]="c.id">
             {{c.name}}
@@ -65,12 +68,12 @@
     
     
       <button type="submit" class="btn btn-primary">Save</button>
-      <button (click)="deleteProduct()" class="btn btn-danger" type="button">Delete</button>
+      <button *ngIf="product.id" (click)="deleteProduct()" class="btn btn-danger" type="button">Delete</button>
     </form>
   </div>
-  <div class="col-md-6">
+  <div *ngIf="product.imageLink" class="col-md-6">
     <div class="card" style="width: 18rem;">
-      <img [src]="product?.imageLink" class="card-img-top"  >
+      <img src="http://localhost:8080/productmanagement/api/v1/{{product.id}}/image/download" class="card-img-top"  >
       <div class="card-body">
         <h5 class="card-title">{{product.name}}</h5>
         <p class="card-text">{{product.price | currency:'USD'}}

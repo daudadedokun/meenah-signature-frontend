@@ -22,7 +22,7 @@
     "@angular/router": "~11.2.5",
     "@auth0/angular-jwt": "^5.0.2",
     "@ng-bootstrap/ng-bootstrap": "^9.1.0",
-    "angular2-jwt": "^0.2.3",
+    "@swimlane/ngx-datatable": "^19.0.0",
     "bootstrap": "^4.5.0",
     "rxjs": "~6.6.0",
     "tslib": "^2.0.0",

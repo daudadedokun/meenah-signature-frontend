@@ -11,9 +11,10 @@ import { LoginComponent } from './login/login.component';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from './services/auth-guard.service';
+import { ProductsComponent } from './products/products.component';
 
 const routes: Routes = [
-  {path:'',component:HomeComponent},
+  {path:'',component:ProductsComponent},
   {path:'shopping-cart', component:ShoppingCartComponent},
   {path:'my/orders', component:MyOrdersComponent},
   {path:'admin/orders', component:AdminOrdersComponent,canActivate:[AuthGuard,AdminAuthGuard]},

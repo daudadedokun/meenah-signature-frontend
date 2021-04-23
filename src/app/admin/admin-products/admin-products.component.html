@@ -4,12 +4,16 @@
 <p>
   <input #query (keyup)="onSearch(query.value)" type="text" class="form-control" placeholder="Search....">
 </p>
-<table class="table table-hover">
+<div>
+
+
+ <table class="table table-hover">
  <thead>
   <tr>
    <th scope="col">Name</th>
-   <th scope="col">Brand</th>
+   <th scope="col">Title</th>
    <th scope="col">Price</th>
+    <th scope="col">Category</th>
   </tr>
  </thead>
  <tbody>
@@ -17,7 +21,8 @@
    <td>{{p.name}}</td>
    <td>{{p.brand}}</td>
    <td>{{p.price}}</td>
+  <td>{{p.category.name}}</td>
    <td><a [routerLink]="['/admin/products/', p.id]">Edit</a></td>
   </tr>
   
-</table>
+</table> 

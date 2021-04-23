@@ -8,6 +8,8 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
   styleUrls: ['./admin-products.component.css']
 })
 export class AdminProductsComponent implements OnInit, OnDestroy {
+
+  
   products:Product[] = []
   filteredProducts:any[] = []
   constructor(public prodService: ProductService) { 
